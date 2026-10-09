@@ -120,7 +120,7 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(PORT, () => {
   console.log('安迅家官网 CMS 已启动');
-  console.log('  前台: http://localhost:' + PORT + '/');
-  console.log('  后台: http://localhost:' + PORT + '/admin');
+  console.log('  前台: https://anxunjia.cc/');
+  console.log('  后台: https://anxunjia.cc/admin');
   if (ADMIN_TOKEN) console.log('  已启用 ADMIN_TOKEN 口令保护');
 });
