@@ -1,0 +1,12 @@
+{
+  "name": "anxunjia",
+  "version": "1.0.0",
+  "description": "安迅家官网 CMS（前台 + 可编辑后台）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

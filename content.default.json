@@ -1,0 +1,32 @@
+{
+  "brand": "安迅家",
+  "version": "V 1.0.0",
+  "badges": ["官方认证", "正版"],
+  "heroTitle": "安迅到家",
+  "heroHighlight": "到家",
+  "slogan": "安迅到家 · 家信一封送达",
+  "features": [
+    {"icon": "mail", "title": "家信送达", "desc": "人在别处，重要的话仍走一封信。打开即回执，不埋在群聊里。"},
+    {"icon": "shield", "title": "链路可追", "desc": "城关核验身份，节点可见。进来的人、出去的信，都留有去向。"},
+    {"icon": "check", "title": "认准官网", "desc": "安装包只从本页发布。其他链接、改名包、未知来源，请勿安装。"}
+  ],
+  "tryTitle": "试寄一封",
+  "tryHint": "不必先安装。写一句到家的话，看它怎样过城关、留节点、把回执交还。",
+  "recipients": ["母亲", "父亲", "伴侣", "孩子"],
+  "placeholder": "今晚到家，饭留着。",
+  "maxLength": 40,
+  "meta": "v1.0.0 · iOS 15+ · Android 10+ · 当前设备",
+  "deviceLabel": "iPhone",
+  "iosButton": "苹果下载通道",
+  "iosUrl": "",
+  "androidButton": "安卓下载通道",
+  "androidUrl": "",
+  "footer": "安迅家 · 官方下载 · 只认本页",
+  "theme": {
+    "bg": "#0a2417",
+    "gold": "#c9a227",
+    "goldHi": "#e8c96a",
+    "cream": "#f3ead5",
+    "sub": "#9db8a7"
+  }
+}
