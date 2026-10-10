@@ -16,6 +16,7 @@ const CONTENT_FILE = path.join(ROOT, 'content.json');
 const DEFAULT_FILE = path.join(ROOT, 'content.default.json');
 const PORT = Number(process.env.PORT || 3000);
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -100,6 +101,15 @@ const server = http.createServer(async (req, res) => {
       if (!authed(req)) return sendJson(res, 401, { error: '未授权' });
       fs.writeFileSync(CONTENT_FILE, fs.readFileSync(DEFAULT_FILE));
       return sendJson(res, 200, { ok: true, content: JSON.parse(fs.readFileSync(DEFAULT_FILE, 'utf8')) });
+    }
+
+
+    /* ---------- 登录 ---------- */
+    if (u.pathname === '/api/login' && req.method === 'POST') {
+      const body = JSON.parse(await readBody(req) || '{}');
+      const ok = body.user === ADMIN_USER && body.pass === ADMIN_TOKEN && ADMIN_TOKEN;
+      if (!ok) return sendJson(res, 401, { error: '账号或密码错误' });
+      return sendJson(res, 200, { ok: true, token: ADMIN_TOKEN });
     }
 
     /* ---------- 静态页面 ---------- */

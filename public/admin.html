@@ -68,9 +68,31 @@
   .pv .p-dl .btns span{border:1px solid var(--ax-gold,#c9a227);color:var(--ax-gold-hi,#e8c96a);border-radius:16px;padding:4px 14px;font-size:10px;letter-spacing:1px;}
   .pv .p-foot{text-align:center;color:#5d7a68;font-size:10px;letter-spacing:2px;padding:0 12px 14px;}
   @media (max-width:900px){.wrap{grid-template-columns:1fr;}.preview-side{position:static;height:auto;}}
+
+  /* login overlay */
+  #login-overlay{position:fixed;inset:0;background:#0d1f16;z-index:100;display:flex;align-items:center;justify-content:center;}
+  #login-overlay.hide{display:none;}
+  .login-box{background:#0f2a1c;border:1px solid #2a4a38;border-radius:16px;padding:32px 28px;width:320px;text-align:center;}
+  .login-box h2{color:#e8c96a;letter-spacing:4px;margin-bottom:6px;font-size:20px;}
+  .login-box .sub{color:#7fa08c;font-size:12px;margin-bottom:22px;letter-spacing:2px;}
+  .login-box input{width:100%;background:#0a1d12;border:1px solid #33553f;border-radius:10px;color:#e8dfc8;padding:12px 14px;font-size:14px;margin-bottom:12px;outline:none;font-family:inherit;}
+  .login-box input:focus{border-color:#c9a227;}
+  .login-box button{width:100%;background:linear-gradient(180deg,#e8c96a,#c9a227);color:#12240f;border:none;border-radius:24px;padding:12px;font-size:15px;letter-spacing:4px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px;}
+  .login-box .err{color:#e07a5f;font-size:12px;margin-top:10px;min-height:18px;}
 </style>
 </head>
 <body>
+<div id="login-overlay">
+  <div class="login-box">
+    <h2>安迅家后台</h2>
+    <div class="sub">请登录后继续</div>
+    <input id="login-user" type="text" placeholder="账号" autocomplete="username">
+    <input id="login-pass" type="password" placeholder="密码" autocomplete="current-password">
+    <button id="login-btn">登 录</button>
+    <div class="err" id="login-err"></div>
+  </div>
+</div>
+
 <header>
   <div><b>安迅家 · 内容后台</b><span class="sub">修改左侧任意内容，右侧实时预览；保存后前台立即生效</span></div>
   <div class="bar"><span id="status"></span>
@@ -229,14 +251,30 @@ function setStatus(msg, bad){
   var s = document.getElementById('status');
   s.textContent = msg; s.style.color = bad ? '#e07a5f' : '#7fa08c';
 }
+var ADMIN_TOKEN = sessionStorage.getItem('anxunjia_token') || '';
+
+function authHeaders(extra){
+  var h = extra || {};
+  if (ADMIN_TOKEN) h['x-admin-token'] = ADMIN_TOKEN;
+  return h;
+}
+
+function showLogin(err){
+  document.getElementById('login-overlay').classList.remove('hide');
+  document.getElementById('login-err').textContent = err || '';
+}
+function hideLogin(){
+  document.getElementById('login-overlay').classList.add('hide');
+}
+
 function load(){
-  fetch('/api/content').then(function(r){ return r.json(); }).then(function(c){
+  fetch('/api/content', {headers: authHeaders()}).then(function(r){ return r.json(); }).then(function(c){
     state = c; renderForm(); renderPreview(); setStatus('已加载当前线上内容');
   }).catch(function(){ setStatus('加载失败：请确认 server.js 已启动', true); });
 }
 document.getElementById('reload').addEventListener('click', load);
 document.getElementById('save').addEventListener('click', function(){
-  fetch('/api/content', {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(state)})
+  fetch('/api/content', {method:'PUT', headers: authHeaders({'Content-Type':'application/json'}), body: JSON.stringify(state)})
     .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
     .then(function(x){
       if (x.ok) setStatus('已保存 · 前台即时生效 ' + new Date().toLocaleTimeString());
@@ -246,11 +284,41 @@ document.getElementById('save').addEventListener('click', function(){
 });
 document.getElementById('reset').addEventListener('click', function(){
   if (!confirm('确定恢复默认内容？当前修改将丢失。')) return;
-  fetch('/api/content/reset', {method:'POST'}).then(function(r){ return r.json(); })
+  fetch('/api/content/reset', {method:'POST', headers: authHeaders()}).then(function(r){ return r.json(); })
     .then(function(j){ state = j.content || state; renderForm(); renderPreview(); setStatus('已恢复默认'); })
     .catch(function(){ setStatus('重置失败', true); });
 });
-load();
+
+document.getElementById('login-btn').addEventListener('click', doLogin);
+document.getElementById('login-pass').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+document.getElementById('login-user').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+
+function doLogin(){
+  var user = document.getElementById('login-user').value.trim();
+  var pass = document.getElementById('login-pass').value;
+  document.getElementById('login-err').textContent = '';
+  fetch('/api/login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({user:user, pass:pass})})
+    .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+    .then(function(x){
+      if (x.ok && x.j.token) {
+        ADMIN_TOKEN = x.j.token;
+        sessionStorage.setItem('anxunjia_token', ADMIN_TOKEN);
+        hideLogin();
+        load();
+      } else {
+        document.getElementById('login-err').textContent = x.j.error || '登录失败';
+      }
+    })
+    .catch(function(){ document.getElementById('login-err').textContent = '网络错误'; });
+}
+
+if (ADMIN_TOKEN) {
+  hideLogin();
+  load();
+} else {
+  showLogin();
+}
+
 </script>
 </body>
 </html>
