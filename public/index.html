@@ -1,1 +1,209 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>安迅家 · 官方下载 · anxunjia.cc</title>
+<style>
+  :root{--ax-bg:#0a2417;--ax-bg2:#0e2f1e;--ax-card:#103a25;--ax-gold:#c9a227;--ax-gold-hi:#e8c96a;--ax-gold-dim:#8a7322;--ax-cream:#f3ead5;--ax-sub:#9db8a7;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--ax-bg);color:var(--ax-cream);font-family:"Songti SC","STSong","Noto Serif SC",serif;}
+  .page{max-width:760px;margin:0 auto;padding:0 20px 48px;}
+  .top{display:flex;justify-content:space-between;align-items:center;padding:16px 4px;border-bottom:1px solid rgba(201,162,39,.25);}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand b{font-size:20px;letter-spacing:6px;color:var(--ax-gold-hi);}
+  .ver{font-size:11px;color:var(--ax-gold);border:1px solid var(--ax-gold-dim);border-radius:20px;padding:2px 10px;letter-spacing:2px;}
+  .lang{font-size:12px;color:var(--ax-sub);letter-spacing:2px;}
+  .hero{text-align:center;padding:34px 0 8px;}
+  .badge-row{display:flex;justify-content:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .pill{font-size:11px;letter-spacing:3px;padding:4px 14px;border-radius:20px;border:1px solid var(--ax-gold-dim);color:var(--ax-gold);}
+  .pill.solid{background:var(--ax-gold);color:#12240f;border-color:var(--ax-gold);font-weight:700;}
+  h1{font-size:34px;letter-spacing:4px;font-weight:700;}
+  h1 em{font-style:normal;color:var(--ax-gold-hi);}
+  .slogan{margin-top:10px;font-size:15px;letter-spacing:3px;color:var(--ax-sub);}
+  .emblem-wrap{display:flex;justify-content:center;padding:22px 0 6px;}
+  .emblem{width:230px;height:230px;filter:drop-shadow(0 0 18px rgba(201,162,39,.28));}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0;}
+  .feat{background:linear-gradient(180deg,var(--ax-card),var(--ax-bg2));border:1px solid rgba(201,162,39,.3);border-radius:14px;padding:18px 14px;text-align:center;}
+  .feat .ic{width:40px;height:40px;margin:0 auto 10px;border-radius:50%;border:1px solid var(--ax-gold-dim);display:flex;align-items:center;justify-content:center;}
+  .feat .ic svg{width:20px;height:20px;stroke:var(--ax-gold-hi);fill:none;stroke-width:1.6;}
+  .feat h3{font-size:16px;letter-spacing:3px;color:var(--ax-gold-hi);margin-bottom:8px;}
+  .feat p{font-size:12px;line-height:1.7;color:var(--ax-sub);}
+  .try{background:linear-gradient(180deg,#0f3523,#0a2417);border:1px solid rgba(201,162,39,.35);border-radius:18px;padding:24px 22px;}
+  .try h2{font-size:20px;letter-spacing:4px;color:var(--ax-gold-hi);text-align:center;margin-bottom:6px;}
+  .try .hint{font-size:12px;color:var(--ax-sub);text-align:center;letter-spacing:1px;margin-bottom:18px;}
+  .to-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+  .to-row .lab{font-size:13px;color:var(--ax-sub);letter-spacing:2px;}
+  .chip{font-size:13px;padding:5px 14px;border-radius:20px;cursor:pointer;border:1px solid var(--ax-gold-dim);color:var(--ax-sub);background:transparent;letter-spacing:2px;font-family:inherit;}
+  .chip.on{background:var(--ax-gold);color:#12240f;font-weight:700;border-color:var(--ax-gold);}
+  textarea{width:100%;min-height:76px;resize:none;background:rgba(8,32,21,.5);border:1px solid rgba(201,162,39,.35);border-radius:12px;color:var(--ax-cream);font-family:inherit;font-size:14px;padding:12px 14px;line-height:1.7;outline:none;}
+  textarea:focus{border-color:var(--ax-gold);}
+  .count{font-size:11px;color:var(--ax-sub);text-align:right;margin-top:4px;}
+  .send-row{margin-top:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .btn-gold{background:linear-gradient(180deg,var(--ax-gold-hi),var(--ax-gold));color:#12240f;border:none;border-radius:24px;padding:10px 34px;font-size:15px;letter-spacing:4px;font-weight:700;cursor:pointer;font-family:inherit;}
+  .btn-gold:disabled{opacity:.5;}
+  .demo-tag{font-size:11px;color:var(--ax-sub);}
+  .route{display:none;margin-top:22px;padding-top:18px;border-top:1px dashed rgba(201,162,39,.3);}
+  .route.show{display:block;}
+  .steps{display:flex;align-items:flex-start;justify-content:space-between;position:relative;margin:0 8px;}
+  .steps::before{content:"";position:absolute;top:11px;left:26px;right:26px;height:2px;background:rgba(201,162,39,.2);}
+  .progress-line{position:absolute;top:11px;left:26px;height:2px;width:0;background:var(--ax-gold-hi);transition:width .8s ease;box-shadow:0 0 8px rgba(232,201,106,.8);}
+  .step{display:flex;flex-direction:column;align-items:center;gap:8px;width:70px;z-index:1;}
+  .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--ax-gold-dim);background:var(--ax-bg);display:flex;align-items:center;justify-content:center;transition:.3s;}
+  .dot svg{width:11px;height:11px;stroke:#12240f;stroke-width:2.6;fill:none;opacity:0;}
+  .step.on .dot{background:var(--ax-gold);border-color:var(--ax-gold-hi);box-shadow:0 0 10px rgba(232,201,106,.7);}
+  .step.on .dot svg{opacity:1;}
+  .step span{font-size:11px;color:var(--ax-sub);text-align:center;line-height:1.4;}
+  .step.on span{color:var(--ax-gold-hi);}
+  .receipt{display:none;margin-top:18px;background:var(--ax-cream);color:#2a2013;border-radius:10px;padding:16px 16px 14px;font-size:13px;line-height:1.8;box-shadow:0 6px 20px rgba(0,0,0,.4);position:relative;}
+  .receipt::before{content:"回 执";position:absolute;top:-10px;left:16px;background:var(--ax-gold);color:#12240f;font-size:11px;letter-spacing:3px;padding:2px 10px;border-radius:10px;font-weight:700;}
+  .receipt.show{display:block;animation:pop .4s ease;}
+  @keyframes pop{from{transform:translateY(8px);opacity:0;}to{transform:none;opacity:1;}}
+  .dl{margin-top:30px;text-align:center;}
+  .dl .meta{font-size:12px;color:var(--ax-sub);letter-spacing:2px;margin-bottom:14px;}
+  .dl .meta b{color:var(--ax-gold-hi);}
+  .dl-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+  .btn-line{background:transparent;border:1px solid var(--ax-gold);color:var(--ax-gold-hi);border-radius:24px;padding:10px 30px;font-size:14px;letter-spacing:3px;cursor:pointer;font-family:inherit;}
+  .dl-note{margin-top:12px;font-size:11px;color:var(--ax-gold);min-height:16px;}
+  footer{margin-top:36px;text-align:center;font-size:11px;color:#5d7a68;letter-spacing:2px;}
+  @media (max-width:640px){.features{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="page" id="app"></div>
+
+<script>
+/* 兜底内容：直接双击打开（不经服务器）时使用 */
+var FALLBACK = null;
+var ICONS = {
+  mail: '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+  shield: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+  check: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>'
+};
+var CHECK = '<svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 7"/></svg>';
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function emblemSVG(){
+  return '<svg class="emblem" viewBox="0 0 200 200">'
+  + '<defs>'
+  + '<radialGradient id="globe" cx="42%" cy="38%" r="70%"><stop offset="0%" stop-color="#2e6b4f"/><stop offset="60%" stop-color="#174a33"/><stop offset="100%" stop-color="#0c2e1f"/></radialGradient>'
+  + '<linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8c96a"/><stop offset="55%" stop-color="#c9a227"/><stop offset="100%" stop-color="#8a7322"/></linearGradient>'
+  + '</defs>'
+  + '<circle cx="100" cy="92" r="52" fill="url(#globe)" stroke="url(#gold)" stroke-width="2"/>'
+  + '<path d="M70 70 q14 -10 30 -6 q-4 8 -12 10 q10 2 14 10 q-16 4 -28 -2 q-8 6 -16 2 q2 -10 12 -14z" fill="url(#gold)" opacity=".9"/>'
+  + '<path d="M112 96 q12 -4 22 4 q-2 10 -10 12 q-12 2 -18 -4 q0 -8 6 -12z" fill="url(#gold)" opacity=".85"/>'
+  + '<path d="M66 104 q10 2 12 12 q-8 8 -18 4 q-4 -10 6 -16z" fill="url(#gold)" opacity=".8"/>'
+  + '<g stroke="url(#gold)" fill="none" stroke-width="1.4" opacity=".55"><ellipse cx="100" cy="92" rx="52" ry="18"/><ellipse cx="100" cy="92" rx="20" ry="52"/></g>'
+  + '<g transform="translate(100 118)"><rect x="-30" y="-15" width="60" height="36" rx="3" fill="url(#gold)" stroke="#6b5718" stroke-width="1"/><path d="M-30 -15 L0 8 L30 -15" fill="none" stroke="#6b5718" stroke-width="1.6"/><circle cx="24" cy="18" r="7" fill="#c9a227" stroke="#6b5718"/><path d="M21 18 l2.4 2.4 L27 16.6" stroke="#12240f" stroke-width="1.6" fill="none"/></g>'
+  + '<g stroke="url(#gold)" stroke-width="1.6" fill="none"><path d="M56 44 Q36 70 40 108 Q42 132 58 148"/><path d="M144 44 Q164 70 160 108 Q158 132 142 148"/></g>'
+  + '<g fill="url(#gold)">'
+  + '<ellipse cx="52" cy="58" rx="4" ry="9" transform="rotate(35 52 58)"/><ellipse cx="45" cy="76" rx="4" ry="9" transform="rotate(20 45 76)"/><ellipse cx="42" cy="96" rx="4" ry="9" transform="rotate(6 42 96)"/><ellipse cx="45" cy="116" rx="4" ry="9" transform="rotate(-12 45 116)"/><ellipse cx="53" cy="134" rx="4" ry="9" transform="rotate(-30 53 134)"/>'
+  + '<ellipse cx="148" cy="58" rx="4" ry="9" transform="rotate(-35 148 58)"/><ellipse cx="155" cy="76" rx="4" ry="9" transform="rotate(-20 155 76)"/><ellipse cx="158" cy="96" rx="4" ry="9" transform="rotate(-6 158 96)"/><ellipse cx="155" cy="116" rx="4" ry="9" transform="rotate(12 155 116)"/><ellipse cx="147" cy="134" rx="4" ry="9" transform="rotate(30 147 134)"/>'
+  + '</g>'
+  + '<g stroke="url(#gold)" stroke-width="1.6" fill="none"><path d="M100 168 v-12 M100 156 h-14 v10 M100 156 h14 v10 M86 166 v8 M114 166 v8"/><path d="M60 178 h80 M70 178 v-8 M130 178 v-8 M82 178 v-8 M118 178 v-8"/><circle cx="60" cy="178" r="2.4" fill="#c9a227"/><circle cx="140" cy="178" r="2.4" fill="#c9a227"/></g>'
+  + '</svg>';
+}
+
+function render(c){
+  var th = c.theme || {};
+  var r = document.documentElement.style;
+  r.setProperty('--ax-bg', th.bg); r.setProperty('--ax-gold', th.gold);
+  r.setProperty('--ax-gold-hi', th.goldHi); r.setProperty('--ax-cream', th.cream);
+  r.setProperty('--ax-sub', th.sub);
+  var title = esc(c.heroTitle || '');
+  var hi = esc(c.heroHighlight || '');
+  if (hi && title.indexOf(hi) >= 0) title = title.replace(hi, '<em>' + hi + '</em>');
+
+  var feats = (c.features || []).map(function(f){
+    return '<div class="feat"><div class="ic">' + (ICONS[f.icon] || ICONS.mail) + '</div><h3>' + esc(f.title) + '</h3><p>' + esc(f.desc) + '</p></div>';
+  }).join('');
+
+  var chips = (c.recipients || []).map(function(x, i){
+    return '<button class="chip' + (i === 0 ? ' on' : '') + '" data-to="' + esc(x) + '">' + esc(x) + '</button>';
+  }).join('');
+
+  document.getElementById('app').innerHTML =
+    '<div class="top"><div class="brand"><b>' + esc(c.brand) + '</b><span class="ver">' + esc(c.version) + '</span></div>'
+    + '<div class="lang">中文 EN</div></div>'
+    + '<div class="hero"><div class="badge-row">'
+    + (c.badges || []).map(function(b, i){ return '<span class="pill' + (i === 0 ? ' solid' : '') + '">' + esc(b) + '</span>'; }).join('')
+    + '</div><h1>' + title + '</h1><div class="slogan">' + esc(c.slogan) + '</div>'
+    + '<div class="emblem-wrap">' + emblemSVG() + '</div></div>'
+    + '<div class="features">' + feats + '</div>'
+    + '<div class="try"><h2>' + esc(c.tryTitle) + '</h2><div class="hint">' + esc(c.tryHint) + '</div>'
+    + '<div class="to-row"><span class="lab">致</span>' + chips + '</div>'
+    + '<textarea id="msg" maxlength="' + (c.maxLength || 40) + '" placeholder="' + esc(c.placeholder) + '">' + esc(c.placeholder) + '</textarea>'
+    + '<div class="count"><span id="cnt">0</span>/' + (c.maxLength || 40) + '</div>'
+    + '<div class="send-row"><button class="btn-gold" id="send">寄 出</button><span class="demo-tag">演示链路 · 不产生真实发送</span></div>'
+    + '<div class="route" id="route"><div class="steps"><div class="progress-line" id="pline"></div>'
+    + ['家信已寄出','城关核验身份','链路节点留痕','回执交还'].map(function(s){
+        return '<div class="step"><div class="dot">' + CHECK + '</div><span>' + s + '</span></div>';
+      }).join('')
+    + '</div><div class="receipt" id="receipt"></div></div></div>'
+    + '<div class="dl"><div class="meta">' + esc(c.meta) + ' <b>' + esc(c.deviceLabel) + '</b></div>'
+    + '<div class="dl-btns"><button class="btn-line" id="ios">' + esc(c.iosButton) + '</button>'
+    + '<button class="btn-line" id="and">' + esc(c.androidButton) + '</button></div>'
+    + '<div class="dl-note" id="dlNote"></div></div>'
+    + '<footer>' + esc(c.footer) + '</footer>';
+
+  bind(c);
+}
+
+function bind(c){
+  var to = (c.recipients || [])[0] || '家人';
+  document.querySelectorAll('.chip').forEach(function(ch){
+    ch.addEventListener('click', function(){
+      document.querySelectorAll('.chip').forEach(function(x){ x.classList.remove('on'); });
+      ch.classList.add('on'); to = ch.dataset.to;
+    });
+  });
+  var ta = document.getElementById('msg'), cnt = document.getElementById('cnt');
+  var upd = function(){ cnt.textContent = ta.value.length; };
+  ta.addEventListener('input', upd); upd();
+
+  var sendBtn = document.getElementById('send'), route = document.getElementById('route'),
+      pline = document.getElementById('pline'), steps = document.querySelectorAll('.step'),
+      receipt = document.getElementById('receipt'), timers = [];
+  sendBtn.addEventListener('click', function(){
+    timers.forEach(clearTimeout); timers = [];
+    var msg = ta.value.trim() || c.placeholder;
+    steps.forEach(function(s){ s.classList.remove('on'); });
+    pline.style.width = '0'; receipt.classList.remove('show'); route.classList.add('show');
+    sendBtn.disabled = true; sendBtn.textContent = '寄送中…';
+    var seg = (route.querySelector('.steps').offsetWidth - 52) / 3;
+    [0,1,2,3].forEach(function(i){
+      timers.push(setTimeout(function(){
+        steps[i].classList.add('on');
+        if (i < 3) { pline.style.width = (seg * (i + 1)) + 'px'; }
+        else {
+          timers.push(setTimeout(function(){
+            var t = new Date(), pad = function(n){ return (n < 10 ? '0' : '') + n; };
+            receipt.innerHTML = '<b>' + esc(to) + '</b> 已打开你的家信。<br>信文:「' + esc(msg)
+              + '」<br>节点可见 · 城关已核验 · ' + pad(t.getHours()) + ':' + pad(t.getMinutes()) + ' 送达并回执。';
+            receipt.classList.add('show');
+            sendBtn.disabled = false; sendBtn.textContent = '再寄一封';
+          }, 450));
+        }
+      }, 700 + i * 900));
+    });
+  });
+
+  var note = document.getElementById('dlNote');
+  var wire = function(id, url, tip){
+    document.getElementById(id).addEventListener('click', function(){
+      if (url) { window.open(url, '_blank', 'noopener'); }
+      else { note.textContent = tip; }
+    });
+  };
+  wire('ios', c.iosUrl, '请认准官网 · 安装包只从本页发布');
+  wire('and', c.androidUrl, '其他链接、改名包、未知来源，请勿安装');
+}
+
+fetch('/api/content').then(function(r){ return r.json(); }).then(render).catch(function(){
+  document.title = '安迅家 · anxunjia.cc';
+  if (FALLBACK) render(FALLBACK);
+});
+</script>
+</body>
+</html>

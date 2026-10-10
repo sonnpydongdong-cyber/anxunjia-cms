@@ -1,1 +1,256 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>安迅家 · 内容后台 · anxunjia.cc/admin</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:#0d1f16;color:#e8dfc8;font-family:"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;}
+  header{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;border-bottom:1px solid #2a4a38;background:#0f2a1c;position:sticky;top:0;z-index:9;}
+  header b{color:#e8c96a;letter-spacing:3px;font-size:17px;}
+  header .sub{color:#7fa08c;font-size:12px;margin-left:10px;}
+  .bar button{margin-left:10px;padding:8px 18px;border-radius:20px;border:1px solid #c9a227;background:transparent;color:#e8c96a;cursor:pointer;font-size:13px;letter-spacing:2px;}
+  .bar button.primary{background:linear-gradient(180deg,#e8c96a,#c9a227);color:#12240f;font-weight:700;border:none;}
+  .bar button:hover{filter:brightness(1.1);}
+  #status{font-size:12px;color:#7fa08c;margin-right:8px;}
+  .wrap{display:grid;grid-template-columns:minmax(340px,1fr) minmax(340px,1fr);gap:0;min-height:calc(100vh - 57px);}
+  .form-side{padding:20px 22px 60px;border-right:1px solid #2a4a38;}
+  .preview-side{padding:20px;background:#08170f;position:sticky;top:57px;height:calc(100vh - 57px);overflow:auto;}
+  .preview-side h4{color:#7fa08c;font-size:12px;letter-spacing:3px;margin-bottom:12px;text-align:center;}
+  fieldset{border:1px solid #2a4a38;border-radius:12px;margin-bottom:16px;padding:14px 16px 18px;}
+  legend{color:#e8c96a;font-size:13px;letter-spacing:3px;padding:0 8px;}
+  .f-row{margin-bottom:12px;}
+  .f-row label{display:block;font-size:12px;color:#7fa08c;margin-bottom:5px;letter-spacing:1px;}
+  .f-row input[type=text],.f-row input[type=number],.f-row textarea{width:100%;background:#0a1d12;border:1px solid #33553f;border-radius:8px;color:#e8dfc8;padding:8px 10px;font-size:13px;font-family:inherit;outline:none;}
+  .f-row input:focus,.f-row textarea:focus{border-color:#c9a227;}
+  .f-row textarea{min-height:58px;resize:vertical;line-height:1.6;}
+  .f-row input[type=color]{width:52px;height:30px;border:1px solid #33553f;border-radius:6px;background:#0a1d12;padding:2px;cursor:pointer;vertical-align:middle;}
+  .color-row{display:flex;align-items:center;gap:10px;}
+  .color-row code{color:#7fa08c;font-size:12px;}
+  .li-row{display:flex;gap:6px;margin-bottom:6px;}
+  .li-row input{flex:1;}
+  button.mini{border:1px solid #33553f;background:transparent;color:#7fa08c;border-radius:6px;width:32px;cursor:pointer;font-size:14px;}
+  button.mini:hover{border-color:#c9a227;color:#e8c96a;}
+  button.add{margin-top:2px;border:1px dashed #c9a227;background:transparent;color:#c9a227;border-radius:8px;padding:5px 14px;cursor:pointer;font-size:12px;letter-spacing:1px;}
+  .card-edit{border:1px solid #33553f;border-radius:10px;padding:10px;margin-bottom:10px;background:#0a1d12;}
+  .card-edit .hd{display:flex;justify-content:space-between;margin-bottom:8px;align-items:center;}
+  .card-edit .hd select{background:#0f2a1c;color:#e8c96a;border:1px solid #33553f;border-radius:6px;padding:3px 8px;font-size:12px;}
+  .card-edit .hd b{color:#e8c96a;font-size:12px;letter-spacing:2px;}
+  /* mini preview */
+  .pv{background:var(--ax-bg,#0a2417);border:1px solid #2a4a38;border-radius:14px;overflow:hidden;font-family:"Songti SC","STSong",serif;transform-origin:top center;}
+  .pv .p-top{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid rgba(201,162,39,.25);}
+  .pv .p-top b{color:var(--ax-gold-hi,#e8c96a);letter-spacing:4px;font-size:15px;}
+  .pv .p-top .ver{font-size:10px;color:var(--ax-gold,#c9a227);border:1px solid #8a7322;border-radius:12px;padding:1px 8px;margin-left:8px;}
+  .pv .p-hero{text-align:center;padding:20px 12px 10px;}
+  .pv .p-badges{display:flex;justify-content:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+  .pv .p-pill{font-size:10px;letter-spacing:2px;padding:2px 10px;border-radius:12px;border:1px solid #8a7322;color:var(--ax-gold,#c9a227);}
+  .pv .p-pill.solid{background:var(--ax-gold,#c9a227);color:#12240f;}
+  .pv h2{color:var(--ax-cream,#f3ead5);font-size:22px;letter-spacing:3px;}
+  .pv h2 em{font-style:normal;color:var(--ax-gold-hi,#e8c96a);}
+  .pv .p-slogan{color:var(--ax-sub,#9db8a7);font-size:11px;margin-top:6px;letter-spacing:2px;}
+  .pv .p-emblem{width:120px;margin:12px auto 0;display:block;}
+  .pv .p-feats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px;}
+  .pv .p-feat{background:#103a25;border:1px solid rgba(201,162,39,.3);border-radius:10px;padding:10px 8px;text-align:center;}
+  .pv .p-feat h5{color:var(--ax-gold-hi,#e8c96a);font-size:12px;letter-spacing:2px;margin-bottom:5px;}
+  .pv .p-feat p{color:var(--ax-sub,#9db8a7);font-size:10px;line-height:1.6;}
+  .pv .p-try{margin:0 14px 14px;background:#0f3523;border:1px solid rgba(201,162,39,.35);border-radius:12px;padding:14px;text-align:center;}
+  .pv .p-try h3{color:var(--ax-gold-hi,#e8c96a);font-size:14px;letter-spacing:3px;margin-bottom:6px;}
+  .pv .p-try .hint{color:var(--ax-sub,#9db8a7);font-size:10px;line-height:1.6;margin-bottom:10px;}
+  .pv .p-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;}
+  .pv .p-chip{font-size:10px;padding:2px 10px;border-radius:12px;border:1px solid #8a7322;color:var(--ax-sub,#9db8a7);}
+  .pv .p-chip.on{background:var(--ax-gold,#c9a227);color:#12240f;}
+  .pv .p-ta{margin-top:10px;background:rgba(8,32,21,.6);border:1px solid rgba(201,162,39,.35);border-radius:8px;color:var(--ax-cream,#f3ead5);font-size:11px;padding:8px;min-height:44px;text-align:left;line-height:1.6;}
+  .pv .p-send{margin-top:10px;display:inline-block;background:linear-gradient(180deg,#e8c96a,#c9a227);color:#12240f;border-radius:16px;padding:5px 22px;font-size:12px;letter-spacing:3px;font-weight:700;}
+  .pv .p-dl{text-align:center;padding:4px 12px 14px;}
+  .pv .p-dl .meta{color:var(--ax-sub,#9db8a7);font-size:10px;letter-spacing:1px;margin-bottom:8px;}
+  .pv .p-dl .btns{display:flex;gap:8px;justify-content:center;}
+  .pv .p-dl .btns span{border:1px solid var(--ax-gold,#c9a227);color:var(--ax-gold-hi,#e8c96a);border-radius:16px;padding:4px 14px;font-size:10px;letter-spacing:1px;}
+  .pv .p-foot{text-align:center;color:#5d7a68;font-size:10px;letter-spacing:2px;padding:0 12px 14px;}
+  @media (max-width:900px){.wrap{grid-template-columns:1fr;}.preview-side{position:static;height:auto;}}
+</style>
+</head>
+<body>
+<header>
+  <div><b>安迅家 · 内容后台</b><span class="sub">修改左侧任意内容，右侧实时预览；保存后前台立即生效</span></div>
+  <div class="bar"><span id="status"></span>
+    <button id="reload">重新加载</button>
+    <button id="reset">恢复默认</button>
+    <button class="primary" id="save">保存并发布</button>
+  </div>
+</header>
+<div class="wrap">
+  <div class="form-side" id="form"></div>
+  <div class="preview-side"><h4>前 台 实 时 预 览</h4><div class="pv" id="pv"></div></div>
+</div>
+
+<script>
+var state = null;
+var SCHEMA = [
+  {group:'品牌与头部', fields:[
+    {key:'brand', label:'品牌名'},
+    {key:'version', label:'版本号'},
+    {key:'badges', label:'头部徽章（最多 5 个，第一个为实心样式）', type:'list'}
+  ]},
+  {group:'主视觉', fields:[
+    {key:'heroTitle', label:'主标题（完整文字，如：安迅到家）'},
+    {key:'heroHighlight', label:'高亮词（主标题中变金色的部分，如：到家）'},
+    {key:'slogan', label:'副标语'}
+  ]},
+  {group:'三大特性卡片（可增删，最多 6 张）', fields:[{key:'features', label:'', type:'cards'}]},
+  {group:'「试寄一封」区块', fields:[
+    {key:'tryTitle', label:'区块标题'},
+    {key:'tryHint', label:'说明文字', type:'textarea'},
+    {key:'recipients', label:'收件人选项（可增删，最多 8 个）', type:'list'},
+    {key:'placeholder', label:'默认信文 / 输入框占位', type:'textarea'},
+    {key:'maxLength', label:'信文字数上限', type:'number'}
+  ]},
+  {group:'下载区', fields:[
+    {key:'meta', label:'版本与系统信息'},
+    {key:'deviceLabel', label:'当前设备标注'},
+    {key:'iosButton', label:'苹果按钮文字'},
+    {key:'iosUrl', label:'苹果下载链接（留空则只提示认准官网）'},
+    {key:'androidButton', label:'安卓按钮文字'},
+    {key:'androidUrl', label:'安卓下载链接（留空则只提示认准官网）'}
+  ]},
+  {group:'页脚', fields:[{key:'footer', label:'页脚文字'}]},
+  {group:'主题色', fields:[
+    {key:'theme.bg', label:'页面背景', type:'color'},
+    {key:'theme.gold', label:'主金色', type:'color'},
+    {key:'theme.goldHi', label:'高亮金', type:'color'},
+    {key:'theme.cream', label:'主文字色', type:'color'},
+    {key:'theme.sub', label:'次要文字色', type:'color'}
+  ]}
+];
+var ICON_OPTS = [['mail','信封'],['shield','盾牌'],['check','对勾']];
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function getPath(o,p){return p.split('.').reduce(function(a,k){return a==null?a:a[k];},o);}
+function setPath(o,p,v){var ks=p.split('.'),c=o;for(var i=0;i<ks.length-1;i++)c=c[ks[i]];c[ks[ks.length-1]]=v;}
+
+function fieldHtml(f){
+  var v = getPath(state, f.key);
+  if (f.type === 'list') {
+    var rows = (v || []).map(function(x, i){
+      return '<div class="li-row"><input type="text" data-list="' + f.key + '" data-i="' + i + '" value="' + esc(x) + '"><button class="mini" data-del="' + f.key + ':' + i + '" title="删除">×</button></div>';
+    }).join('');
+    return '<div class="f-row"><label>' + esc(f.label) + '</label><div>' + rows + '</div><button class="add" data-add="' + f.key + '">+ 添加一项</button></div>';
+  }
+  if (f.type === 'cards') {
+    var cards = (v || []).map(function(cf, i){
+      var opts = ICON_OPTS.map(function(o){
+        return '<option value="' + o[0] + '"' + (cf.icon === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+      }).join('');
+      return '<div class="card-edit"><div class="hd"><b>卡片 ' + (i + 1) + '</b><span><select data-card-icon="' + i + '">' + opts + '</select> <button class="mini" data-delcard="' + i + '" title="删除">×</button></span></div>'
+        + '<div class="f-row"><input type="text" data-card-title="' + i + '" value="' + esc(cf.title) + '" placeholder="标题"></div>'
+        + '<div class="f-row"><textarea data-card-desc="' + i + '" placeholder="描述">' + esc(cf.desc) + '</textarea></div></div>';
+    }).join('');
+    return '<div class="f-row">' + cards + '<button class="add" data-addcard="1">+ 添加卡片</button></div>';
+  }
+  if (f.type === 'textarea') return '<div class="f-row"><label>' + esc(f.label) + '</label><textarea data-key="' + f.key + '">' + esc(v) + '</textarea></div>';
+  if (f.type === 'number') return '<div class="f-row"><label>' + esc(f.label) + '</label><input type="number" data-key="' + f.key + '" value="' + esc(v) + '"></div>';
+  if (f.type === 'color') return '<div class="f-row"><label>' + esc(f.label) + '</label><span class="color-row"><input type="color" data-key="' + f.key + '" value="' + esc(v) + '"><code>' + esc(v) + '</code></span></div>';
+  return '<div class="f-row"><label>' + esc(f.label) + '</label><input type="text" data-key="' + f.key + '" value="' + esc(v) + '"></div>';
+}
+
+function renderForm(){
+  document.getElementById('form').innerHTML = SCHEMA.map(function(g){
+    var inner = g.fields.map(fieldHtml).join('');
+    return '<fieldset><legend>' + esc(g.group) + '</legend>' + inner + '</fieldset>';
+  }).join('');
+}
+
+function emblemMini(){
+  return '<svg class="p-emblem" viewBox="0 0 200 200">'
+  + '<circle cx="100" cy="92" r="52" fill="#174a33" stroke="#c9a227" stroke-width="2"/>'
+  + '<path d="M70 70 q14 -10 30 -6 q-4 8 -12 10 q10 2 14 10 q-16 4 -28 -2 q-8 6 -16 2 q2 -10 12 -14z" fill="#c9a227" opacity=".9"/>'
+  + '<path d="M112 96 q12 -4 22 4 q-2 10 -10 12 q-12 2 -18 -4 q0 -8 6 -12z" fill="#c9a227" opacity=".85"/>'
+  + '<g transform="translate(100 118)"><rect x="-30" y="-15" width="60" height="36" rx="3" fill="#c9a227" stroke="#6b5718"/><path d="M-30 -15 L0 8 L30 -15" fill="none" stroke="#6b5718" stroke-width="1.6"/></g>'
+  + '<g stroke="#c9a227" stroke-width="1.6" fill="none"><path d="M56 44 Q36 70 40 108 Q42 132 58 148"/><path d="M144 44 Q164 70 160 108 Q158 132 142 148"/></g>'
+  + '<g fill="#c9a227"><ellipse cx="45" cy="76" rx="4" ry="9" transform="rotate(20 45 76)"/><ellipse cx="42" cy="96" rx="4" ry="9"/><ellipse cx="45" cy="116" rx="4" ry="9" transform="rotate(-12 45 116)"/><ellipse cx="155" cy="76" rx="4" ry="9" transform="rotate(-20 155 76)"/><ellipse cx="158" cy="96" rx="4" ry="9"/><ellipse cx="155" cy="116" rx="4" ry="9" transform="rotate(12 155 116)"/></g>'
+  + '</svg>';
+}
+
+function renderPreview(){
+  var c = state, th = c.theme;
+  var t = String(c.heroTitle || ''), hi = c.heroHighlight || '';
+  var h2 = hi && t.indexOf(hi) >= 0 ? esc(t.replace(hi, '<em>' + esc(hi) + '</em>')) : esc(t);
+  var feats = (c.features || []).map(function(f){
+    return '<div class="p-feat"><h5>' + esc(f.title) + '</h5><p>' + esc(f.desc) + '</p></div>';
+  }).join('');
+  var chips = (c.recipients || []).map(function(x, i){
+    return '<span class="p-chip' + (i === 0 ? ' on' : '') + '">' + esc(x) + '</span>';
+  }).join('');
+  document.getElementById('pv').style.cssText =
+    '--ax-bg:' + th.bg + ';--ax-gold:' + th.gold + ';--ax-gold-hi:' + th.goldHi + ';--ax-cream:' + th.cream + ';--ax-sub:' + th.sub;
+  document.getElementById('pv').innerHTML =
+    '<div class="p-top"><span><b>' + esc(c.brand) + '</b><span class="ver">' + esc(c.version) + '</span></span><span style="font-size:10px;color:var(--ax-sub)">中文 EN</span></div>'
+    + '<div class="p-hero"><div class="p-badges">' + (c.badges || []).map(function(b, i){
+        return '<span class="p-pill' + (i === 0 ? ' solid' : '') + '">' + esc(b) + '</span>';
+      }).join('') + '</div><h2>' + h2 + '</h2><div class="p-slogan">' + esc(c.slogan) + '</div>' + emblemMini() + '</div>'
+    + '<div class="p-feats">' + feats + '</div>'
+    + '<div class="p-try"><h3>' + esc(c.tryTitle) + '</h3><div class="hint">' + esc(c.tryHint) + '</div>'
+    + '<div class="p-chips">' + chips + '</div>'
+    + '<div class="p-ta">' + esc(c.placeholder) + '</div><span class="p-send">寄 出</span></div>'
+    + '<div class="p-dl"><div class="meta">' + esc(c.meta) + ' <b style="color:var(--ax-gold-hi)">' + esc(c.deviceLabel) + '</b></div>'
+    + '<div class="btns"><span>' + esc(c.iosButton) + '</span><span>' + esc(c.androidButton) + '</span></div></div>'
+    + '<div class="p-foot">' + esc(c.footer) + '</div>';
+}
+
+var form = document.getElementById('form');
+form.addEventListener('input', function(e){
+  var el = e.target, k = el.dataset.key;
+  if (k) {
+    var v = el.type === 'number' ? (+el.value || 0) : el.value;
+    setPath(state, k, v);
+    if (el.type === 'color') el.parentNode.querySelector('code').textContent = el.value;
+  } else if (el.dataset.list != null) {
+    state[el.dataset.list][+el.dataset.i] = el.value;
+  } else if (el.dataset.cardTitle != null) {
+    state.features[+el.dataset.cardTitle].title = el.value;
+  } else if (el.dataset.cardDesc != null) {
+    state.features[+el.dataset.cardDesc].desc = el.value;
+  } else if (el.dataset.cardIcon != null) {
+    state.features[+el.dataset.cardIcon].icon = el.value;
+  }
+  renderPreview();
+});
+form.addEventListener('click', function(e){
+  var t = e.target;
+  if (t.dataset.add) { state[t.dataset.add].push('新内容'); renderForm(); renderPreview(); }
+  if (t.dataset.del) {
+    var p = t.dataset.del.split(':'); state[p[0]].splice(+p[1], 1); renderForm(); renderPreview();
+  }
+  if (t.dataset.addcard) { state.features.push({icon:'mail', title:'新特性', desc:'一句话说明。'}); renderForm(); renderPreview(); }
+  if (t.dataset.delcard != null) { state.features.splice(+t.dataset.delcard, 1); renderForm(); renderPreview(); }
+});
+
+function setStatus(msg, bad){
+  var s = document.getElementById('status');
+  s.textContent = msg; s.style.color = bad ? '#e07a5f' : '#7fa08c';
+}
+function load(){
+  fetch('/api/content').then(function(r){ return r.json(); }).then(function(c){
+    state = c; renderForm(); renderPreview(); setStatus('已加载当前线上内容');
+  }).catch(function(){ setStatus('加载失败：请确认 server.js 已启动', true); });
+}
+document.getElementById('reload').addEventListener('click', load);
+document.getElementById('save').addEventListener('click', function(){
+  fetch('/api/content', {method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify(state)})
+    .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+    .then(function(x){
+      if (x.ok) setStatus('已保存 · 前台即时生效 ' + new Date().toLocaleTimeString());
+      else setStatus('保存失败：' + (x.j.error || r.status), true);
+    })
+    .catch(function(){ setStatus('保存失败：网络错误', true); });
+});
+document.getElementById('reset').addEventListener('click', function(){
+  if (!confirm('确定恢复默认内容？当前修改将丢失。')) return;
+  fetch('/api/content/reset', {method:'POST'}).then(function(r){ return r.json(); })
+    .then(function(j){ state = j.content || state; renderForm(); renderPreview(); setStatus('已恢复默认'); })
+    .catch(function(){ setStatus('重置失败', true); });
+});
+load();
+</script>
+</body>
+</html>
